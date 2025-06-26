@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/jung-kurt/gofpdf"
+	"github.com/sirupsen/logrus"
 )
 
 type Generator interface {
@@ -71,12 +72,17 @@ func (g *generator) Generate(student *model.Student) ([]byte, error) {
 	pdf.Ln(8)
 	var buf bytes.Buffer
 	err := pdf.Output(&buf)
+	if err != nil {
+		logrus.WithError(err).WithField("student_id", student.ID).Error("Failed to generate PDF output")
+		return nil, err
+	}
 	return buf.Bytes(), err
 }
 
 func formatDOB(dob string) string {
 	t, err := time.Parse(time.RFC3339, dob)
 	if err != nil {
+		logrus.WithError(err).WithField("dob", dob).Warn("Invalid date format for student DOB")
 		return dob
 	}
 	return t.Format("02 Jan 2006")
