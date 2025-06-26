@@ -1,0 +1,19 @@
+repos:
+  - repo: https://github.com/dnephin/pre-commit-golang
+    rev: v0.5.1
+    hooks:
+      - id: go-fmt
+        args: [-w]
+        entry: bash -c "cd go-service && gofmt -w ."
+        language: system
+        pass_filenames: false
+
+      - id: go-imports
+        entry: bash -c "cd go-service && goimports -w ."
+        language: system
+        pass_filenames: false
+
+      - id: go-vet
+        entry: bash -c "cd go-service && go vet ./..."
+        language: system
+        pass_filenames: false
