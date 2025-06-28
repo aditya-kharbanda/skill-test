@@ -1,4 +1,4 @@
-.PHONY: build run fmt lint
+.PHONY: build run fmt lint test
 
 build:
 	go build -o bin/go-service ./cmd
@@ -12,3 +12,6 @@ fmt:
 
 lint:
 	golangci-lint run
+
+test:
+	go test ./...
