@@ -30,6 +30,11 @@ func (s *studentReportService) GenerateReport(id string) ([]byte, error) {
 		return nil, fmt.Errorf("failed to fetch student %s: %w", id, err)
 	}
 
+	if student == nil {
+		logger.Error("Student data is nil")
+		return nil, fmt.Errorf("student data is nil for student %s", id)
+	}
+
 	logger.WithField("student_name", student.Name).Debug("Student data fetched successfully")
 
 	pdfBytes, err := s.pdfGen.Generate(student)

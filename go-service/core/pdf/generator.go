@@ -21,6 +21,10 @@ func NewGenerator() Generator {
 }
 
 func (g *generator) Generate(student *model.Student) ([]byte, error) {
+	if student == nil {
+		return nil, fmt.Errorf("student cannot be nil")
+	}
+
 	pdf := gofpdf.New("P", "mm", "A4", "")
 	pdf.AddPage()
 
